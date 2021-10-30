@@ -1,10 +1,10 @@
 import './App.css';
-import BarConfigurator from './components/BarConfigurator';
+import BarWrapper from './components/BarWrapper';
 
 function App() {
   return (
     <div className="App">
-      <BarConfigurator />
+      <BarWrapper />
     </div>
   );
 }
