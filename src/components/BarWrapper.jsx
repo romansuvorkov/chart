@@ -126,11 +126,13 @@ function BarWrapper() {
                 borderWidth: 0
             };
             if (labelsObj[i].trend === 'growth') {
-                newAnnotation.backgroundColor = 'rgba(42, 187, 155, 0.05)'
+                newAnnotation.backgroundColor = 'rgba(42, 187, 155, 0.20)'
             } else if (labelsObj[i].trend === 'fall') {
-                newAnnotation.backgroundColor = 'rgba(255, 0, 0, 0.05)'
-            }else if (labelsObj[i].trend === 'no') {
+                newAnnotation.backgroundColor = 'rgba(255, 0, 0, 0.20)'
+            } else if (labelsObj[i].trend === 'no') {
                 newAnnotation.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+            } else if (labelsObj[i].trend === 'dayOff') {
+                newAnnotation.backgroundColor = 'rgba(0, 0, 255, 0.20)'
             }
             annotations.push(newAnnotation);
         }
@@ -140,56 +142,82 @@ function BarWrapper() {
 
     const options = {
         scales: {
-          y: {
+            y: {
             title: {
-              display: true,
-              text: 'USD'
+                display: true,
+                text: 'USD'
             },
             position: 'right',
             stacked: false,
             ticks: {
-              beginAtZero: true,
+                beginAtZero: true,
             },
             grid: {
                 display: false
             },
             min: 60,
             max: 100,
-          },
-          y3: {
+            },
+            y3: {
             title: {
-              display: true,
-              text: 'Импорт, т'
+                display: true,
+                text: 'Импорт, т'
             },
             position: 'right',
             stacked: true,
             ticks: {
-              beginAtZero: true,
+                beginAtZero: true,
             },
             grid: {
                 display: false
             },
             min: 0,
             max: 800,
-          },
-          y2: {
+            },
+            y2: {
             title: {
-              display: true,
-              text: 'LME'
+                display: true,
+                text: 'LME'
             },
             stacked: false,
             ticks: {
-              beginAtZero: false
+                beginAtZero: false
             },
             min: 1400,
             max: 2100
-          },
-          x1: {
-            title: {
-              display: true,
-              text: 'Дата'
             },
-          }
+            x1: {
+                title: {
+                    display: true,
+                    text: 'Дата'
+                },
+                ticks: {
+                    color: (c) => {
+                        switch (c.index) {
+                            case 5:
+                                return 'red';
+                            case 6:
+                                return 'red';
+                            case 11:
+                                return 'red';
+                            case 12:
+                                return 'red';
+                            case 13:
+                                return 'red';
+                            case 19:
+                                return 'red';
+                            case 20:
+                                return 'red';
+                            case 26:
+                                return 'red';
+                            case 27:
+                                return 'red';
+                            default:
+                                return 'black';
+                        }
+                    }
+                }
+            },
         },
         plugins: {
             annotation: {
@@ -347,7 +375,7 @@ function BarWrapper() {
         setDayChartDate(labelsObj[element[0].element.$context.parsed.x].date)
 
         // console.log(element);
-        console.log(element[0]);
+        // console.log(element[0]);
         // console.log(element[0].element.$context.parsed.x);
         // console.log(LineBubbledData.labels[element[0].element.$context.parsed.x])
 
@@ -385,7 +413,7 @@ function BarWrapper() {
         <div className="dates_info">
         { labelsObj.map((o) => (
             <div className="date_item" key={uuidv4()}>
-                <span className="date" key={uuidv4()}>{o.date}</span>
+                <span className={o.lme ? "date" : "date red"} key={uuidv4()}>{o.date}</span>
                 {o.actions.map((action) => (
                     <span className="date_actions" key={uuidv4()}>{action}</span>
                 ))}
